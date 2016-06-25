@@ -1,0 +1,20 @@
+body {
+    margin-left: 20px;
+    background-color: #277714;
+    color: white;
+}
+
+img {
+    height: 181px;
+    width: 125px;
+    margin: 5px;
+    box-shadow: 3px 3px 3px black;
+}
+
+#dealer-row {
+    min-height: 191px;
+}
+
+#player-row {
+    min-height: 191px;
+}
