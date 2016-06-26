@@ -98,6 +98,8 @@ var dealCard = function(toWhom){
     
     if (calcHandValue(playerHand) > 21){
       document.getElementById("status").innerHTML = "Busted!";
+      disableActions = true;
+      disableDeal = false;
     }
     
   }
@@ -111,20 +113,23 @@ var dealCard = function(toWhom){
 
 var hit = function(toWhom){
   
-  window.setTimeout(function(){
     dealCard(toWhom);
-  },500);
-  
   
 };
 
 // Helper function to empty html contents by element ID
-  var emptyElementById = function(id) {
-    var node = document.getElementById(id);
-        while (node.hasChildNodes()) {
-          node.removeChild(node.firstChild);
-        }
-  };
+var emptyElementById = function(id) {
+  var node = document.getElementById(id);
+      while (node.hasChildNodes()) {
+        node.removeChild(node.firstChild);
+      }
+};
+
+var dealerPlay = function() {
+  
+  
+  
+};
 
 var resetBoard = function() {
   emptyElementById("dealer-row");
@@ -134,21 +139,27 @@ var resetBoard = function() {
   emptyElementById("needs-shuffle");
   playerHand = [];
   dealerHand = [];
-  handValue = 0;
+  playerHandValue = 0;
+  dealerHandValue = 0;
 };
 
 // global variables regarding game state
 var playerHand = [];
 var dealerHand = [];
-var handValue = 0;
+var playerHandValue = 0;
+var dealerHandValue = 0;
 var deckPointer = 0;
 var needResetDeck = true;
 var playing = false;
+// Used to lock out user input during animations
+var disableActions = false;
+var disableDeal = false;
 
 
 // starts a round; board reset; cards are dealt
 var deal = function() {
-  
+  disableActions = true;
+  disableDeal = true;
   resetBoard();
   
   if (needResetDeck) {
@@ -170,6 +181,7 @@ var deal = function() {
   },1500);
   window.setTimeout(function(){
     dealCard("dealer");
+    disableActions = false;
   },2000);
   
   //showActions();
@@ -183,10 +195,18 @@ window.onload = function(){
   //console.log(playDeck);
   
   document.getElementById("hit").onclick = function() {
-    hit("player");
+    if (disableActions === false)
+      hit("player");
   };
   document.getElementById("deal").onclick = function() {
-    deal();
+    if (disableDeal === false)
+      deal();
+  };
+  
+  document.getElementById("stand").onclick = function() {
+    dealerPlay();
+    //if (disableDeal === false)
+    //  deal();
   };
   
 };

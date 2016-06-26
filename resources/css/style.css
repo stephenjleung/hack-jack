@@ -1,6 +1,6 @@
 body {
     margin-left: 20px;
-    background-color: #277714;
+    background-color: green;
     color: white;
 }
 
@@ -13,6 +13,7 @@ img {
 
 #dealer-row {
     min-height: 191px;
+    margin-bottom: 40px;
 }
 
 #player-row {
