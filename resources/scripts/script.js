@@ -108,9 +108,21 @@ var dealCard = function(toWhom){
     document.getElementById("player-hand-value").innerHTML = (calcHandValue(playerHand));
     
     if (calcHandValue(playerHand) > 21){
-      document.getElementById("status").innerHTML = "Busted!";
+      
+      if (stash <= 0) {
+        gameOver = true;
+        document.getElementById("status").innerHTML = "Busted!  You're Out of Money.  Game Over!";
+      }
+      else {
+        document.getElementById("status").innerHTML = "Busted!";
+      }
+        
       disableActions = true;
       disableDeal = false;
+      
+      window.setTimeout(function(){
+        revealDealerHand();
+      },500);
     }
     
   }
@@ -165,19 +177,80 @@ var dealerPlay = function() {
 
 var checkWin = function() {
   if (calcHandValue(dealerHand) > 21) {
-    document.getElementById("status").innerHTML = "Dealer Busts. You Win!";
+    document.getElementById("status").innerHTML = "Dealer Busts. You Won $" + (bet * 2) + "!";
+    stash += bet * 2;
+    updateHTML("stash");
   }
   else if (calcHandValue(dealerHand) > calcHandValue(playerHand)) {
-    document.getElementById("status").innerHTML = "You Lose!";
+    if (stash <= 0) {
+      gameOver = true;
+      document.getElementById("status").innerHTML = "Dealer Wins.  You're Out of Money.  Game Over!";
+    }
+    else {
+      document.getElementById("status").innerHTML = "You Lose!";
+    }
   }
   else if (calcHandValue(dealerHand) === calcHandValue(playerHand)) {
     document.getElementById("status").innerHTML = "Push!";
+    stash += bet;
+    updateHTML("stash");
   }
   else {
-    document.getElementById("status").innerHTML = "You Win!";
+    document.getElementById("status").innerHTML = "You Won $" + (bet * 2) + "!";
+    stash += bet * 2;
+    updateHTML("stash");
   }
   disableActions = true;
   disableDeal = false;
+};
+
+var changeBet = function(change, minOrMax){
+  
+  if (arguments.length === 2) {
+    if ((minOrMax === "max") && (bet + change <= stash))
+      bet = change;
+    else if ((minOrMax === "max") && (bet + change > stash))
+      bet = stash;
+    else
+      bet = change;
+      
+  }
+  else if (bet + change <= stash) {
+    if (bet + change > maxBet) {
+      bet = maxBet;
+    }
+    else if (bet + change <= minBet) {
+      bet = minBet;
+    }
+    else {
+      bet += change;
+    }
+  }
+  
+  else if (bet + change > stash) {
+    bet = stash;
+  }
+    
+  updateHTML("bet");
+};
+
+
+var updateHTML = function(id){
+  switch(id) {
+    case "stash":
+      document.getElementById("stash").innerHTML = stash;
+      break;
+    case "bet":
+      document.getElementById("bet").innerHTML = bet;
+      break;
+    
+  }
+};
+
+
+var placeBet = function(){
+  stash = stash - bet;
+  updateHTML("stash");
 };
 
 var resetBoard = function() {
@@ -203,12 +276,15 @@ var deckPointer = 0;
 var needResetDeck = true;
 var playing = false;
 // Used to lock out user input during animations
-var disableActions = false;
+var disableActions = true;
 var disableDeal = false;
 var dealerHandRevealed = false;
 
-var stash = 100;
+var stash = 1000;
 var bet = 5;
+var minBet = 5;
+var maxBet = 1000;
+var gameOver = false;
 
 
 // starts a round; board reset; cards are dealt
@@ -216,6 +292,8 @@ var deal = function() {
   disableActions = true;
   disableDeal = true;
   resetBoard();
+  
+  placeBet();
   
   if (needResetDeck) {
     playDeck = initializeDeck();
@@ -246,15 +324,17 @@ var deal = function() {
 
 window.onload = function(){
     
-  deal();
+//  deal();
   //console.log(playDeck);
+  document.getElementById("stash").innerHTML = stash;
+  document.getElementById("bet").innerHTML = bet;
   
   document.getElementById("hit").onclick = function() {
     if (disableActions === false)
       hit("player");
   };
   document.getElementById("deal").onclick = function() {
-    if (disableDeal === false)
+    if ((disableDeal === false) && (gameOver === false))
       deal();
   };
   
@@ -264,5 +344,14 @@ window.onload = function(){
     //if (disableDeal === false)
     //  deal();
   };
+  
+  document.getElementById("bet-min").onclick = function() {changeBet(minBet,"min")};
+  document.getElementById("bet-max").onclick = function() {changeBet(maxBet, "max")};
+  document.getElementById("bet-add-5").onclick = function() {changeBet(5)};
+  document.getElementById("bet-add-20").onclick = function() {changeBet(20)};
+  document.getElementById("bet-add-100").onclick = function() {changeBet(100)};
+  document.getElementById("bet-subtract-5").onclick = function() {changeBet(-5)};
+  document.getElementById("bet-subtract-20").onclick = function() {changeBet(-20)};
+  document.getElementById("bet-subtract-100").onclick = function() {changeBet(-100)};
   
 };
