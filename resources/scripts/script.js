@@ -89,6 +89,7 @@ var dealCard = function(toWhom){
   if (toWhom === "dealer") {
     dealerHand.push(tempCard);
     document.getElementById("dealer-row").insertAdjacentHTML("beforeend","<img src='./resources/images/" + (tempCard + 1) + ".png' />");
+    document.getElementById("dealer-hand-value").innerHTML = (calcHandValue(dealerHand));
   }
   
   else if (toWhom === "player") {
@@ -127,8 +128,31 @@ var emptyElementById = function(id) {
 
 var dealerPlay = function() {
   
+  if (calcHandValue(dealerHand) > 16) {
+    checkWin();
+  }
+  else {
+    hit("dealer");
+    dealerPlay();
+  }
   
-  
+};
+
+var checkWin = function() {
+  if (calcHandValue(dealerHand) > 21) {
+    document.getElementById("status").innerHTML = "Dealer Busts. You Win!";
+  }
+  else if (calcHandValue(dealerHand) > calcHandValue(playerHand)) {
+    document.getElementById("status").innerHTML = "You Lose!";
+  }
+  else if (calcHandValue(dealerHand) === calcHandValue(playerHand)) {
+    document.getElementById("status").innerHTML = "Push!";
+  }
+  else {
+    document.getElementById("status").innerHTML = "You Win!";
+  }
+  disableActions = true;
+  disableDeal = false;
 };
 
 var resetBoard = function() {
@@ -136,6 +160,7 @@ var resetBoard = function() {
   emptyElementById("player-row");
   emptyElementById("status");
   emptyElementById("player-hand-value");
+  emptyElementById("dealer-hand-value");
   emptyElementById("needs-shuffle");
   playerHand = [];
   dealerHand = [];
@@ -204,7 +229,8 @@ window.onload = function(){
   };
   
   document.getElementById("stand").onclick = function() {
-    dealerPlay();
+    if (disableActions === false)
+      dealerPlay();
     //if (disableDeal === false)
     //  deal();
   };
