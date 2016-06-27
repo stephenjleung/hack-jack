@@ -88,8 +88,18 @@ var dealCard = function(toWhom){
   
   if (toWhom === "dealer") {
     dealerHand.push(tempCard);
-    document.getElementById("dealer-row").insertAdjacentHTML("beforeend","<img src='./resources/images/" + (tempCard + 1) + ".png' />");
-    document.getElementById("dealer-hand-value").innerHTML = (calcHandValue(dealerHand));
+    if (dealerHand.length === 1) {
+      document.getElementById("dealer-row").insertAdjacentHTML("beforeend","<img src='./resources/images/playing-card-back.jpg' />");
+    }
+    else if ((dealerHand.length === 2) && (dealerHandRevealed === false)){
+      document.getElementById("dealer-hand-value").innerHTML = (calcHandValue(dealerHand.slice(1,2)));
+      document.getElementById("dealer-row").insertAdjacentHTML("beforeend","<img src='./resources/images/" + (tempCard + 1) + ".png' />");
+    }
+    else {
+      document.getElementById("dealer-hand-value").innerHTML = (calcHandValue(dealerHand));
+      document.getElementById("dealer-row").insertAdjacentHTML("beforeend","<img src='./resources/images/" + (tempCard + 1) + ".png' />");
+    }
+    
   }
   
   else if (toWhom === "player") {
@@ -126,14 +136,29 @@ var emptyElementById = function(id) {
       }
 };
 
+var revealDealerHand = function(){
+  emptyElementById("dealer-row");
+  dealerHand.forEach(function(tempCard){
+    document.getElementById("dealer-row").insertAdjacentHTML("beforeend","<img src='./resources/images/" + (tempCard + 1) + ".png' />");
+  });
+  dealerHandRevealed = true;
+  document.getElementById("dealer-hand-value").innerHTML = (calcHandValue(dealerHand));
+};
+
 var dealerPlay = function() {
   
+  revealDealerHand();
+    
   if (calcHandValue(dealerHand) > 16) {
     checkWin();
   }
   else {
+    window.setTimeout(function(){
+      
     hit("dealer");
     dealerPlay();
+      
+    },500);
   }
   
 };
@@ -166,6 +191,7 @@ var resetBoard = function() {
   dealerHand = [];
   playerHandValue = 0;
   dealerHandValue = 0;
+  dealerHandRevealed = false;
 };
 
 // global variables regarding game state
@@ -179,6 +205,10 @@ var playing = false;
 // Used to lock out user input during animations
 var disableActions = false;
 var disableDeal = false;
+var dealerHandRevealed = false;
+
+var stash = 100;
+var bet = 5;
 
 
 // starts a round; board reset; cards are dealt

@@ -2,6 +2,7 @@ body {
     margin-left: 20px;
     background-color: green;
     color: white;
+    
 }
 
 img {
@@ -9,6 +10,10 @@ img {
     width: 125px;
     margin: 5px;
     box-shadow: 3px 3px 3px black;
+}
+
+button {
+    margin: 10px;
 }
 
 #dealer-row {
