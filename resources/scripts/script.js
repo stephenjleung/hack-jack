@@ -118,7 +118,17 @@ var dealCard = function(toWhom){
       }
         
       disableActions = true;
+      
+      showHide("hit","none");
+      showHide("stand","none");
+      
+      //document.getElementById("hit").style.display = "none";
+      //document.getElementById("stand").style.display = "none";
+      
       disableDeal = false;
+      showHide("deal","inline-block");
+      showHide("bet-row","inline-block");
+      //document.getElementById("deal").style.display = "inline-block";
       
       window.setTimeout(function(){
         revealDealerHand();
@@ -201,13 +211,25 @@ var checkWin = function() {
     updateHTML("stash");
   }
   disableActions = true;
+  showHide("hit","none");
+  showHide("stand","none");
+  //document.getElementById("hit").style.display = "none";
+  //document.getElementById("stand").style.display = "none";
+  
   disableDeal = false;
+  showHide("deal","inline-block");
+  showHide("bet-row","inline-block");
+  //document.getElementById("deal").style.display = "inline-block";
 };
 
 var changeBet = function(change, minOrMax){
-  
+  if (stash <= 0)
+    return 0;
+    
   if (arguments.length === 2) {
     if ((minOrMax === "max") && (bet + change <= stash))
+      bet = change;
+    else if ((minOrMax === "max") && (bet + change > stash) && (stash >= change) )
       bet = change;
     else if ((minOrMax === "max") && (bet + change > stash))
       bet = stash;
@@ -247,6 +269,9 @@ var updateHTML = function(id){
   }
 };
 
+var showHide = function(id,display) {
+  document.getElementById(id).style.display=display;
+}
 
 var placeBet = function(){
   stash = stash - bet;
@@ -290,7 +315,13 @@ var gameOver = false;
 // starts a round; board reset; cards are dealt
 var deal = function() {
   disableActions = true;
+
+  
   disableDeal = true;
+  showHide("deal","none");
+  showHide("bet-row","none");
+  
+  //document.getElementById("deal").style.display = "none";
   resetBoard();
   
   placeBet();
@@ -315,6 +346,12 @@ var deal = function() {
   window.setTimeout(function(){
     dealCard("dealer");
     disableActions = false;
+    
+    showHide("hit","inline-block");
+    showHide("stand","inline-block");
+    
+    //document.getElementById("hit").style.display = "inline-block";
+    //document.getElementById("stand").style.display = "inline-block";
   },2000);
   
   //showActions();
@@ -323,7 +360,8 @@ var deal = function() {
 
 
 window.onload = function(){
-    
+  
+  
 //  deal();
   //console.log(playDeck);
   document.getElementById("stash").innerHTML = stash;

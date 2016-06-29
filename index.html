@@ -10,64 +10,62 @@
     <title>Hack-Jack</title>
   </head>
   <body>
-    <div>
+    <div class="title">
       <h1>Hack-Jack</h1>
     </div>
-    <div id="dealer-row">
-      
-    </div>
     
-    <div id="player-row">
-      
-    </div>
-    <div>
-      Cards Left in Deck: <span id="cards-left"></span>
-    </div>
-    <div>
+    <div class="dealer-hand-indent">
+      <div id="dealer-row"></div>
       Dealer Hand: <span id="dealer-hand-value"></span>
     </div>
-    <div>
-      Your Hand: <span id="player-hand-value"></span>
-    </div>
-    <div>
-      Status: <span id="status"></span>
-    </div>
+ 
+    <hr>
     
-    <div id="actions">
-      <button id="hit" class="btn btn-danger">Hit Me!</button>
-      <button id="stand" class="btn btn-danger">Stand</button>
-      <!--<button id="double-down" class="btn btn-danger">Double-Down!</button>
-      <button id="split" class="btn btn-danger">Split!</button>-->
-    </div>
-    
-    <div>
-      Stash: $<span id="stash"></span>
-    </div>
-    <div>
-      Current Bet: $<span id="bet"></span>
-    </div>
-    
-    
-    <div>
-      <span class="label label-default">Bet:</span>
+    <div class="player-indent">
       
-      <button id="bet-subtract-100" class="btn btn-default">-$100</button>
-      <button id="bet-subtract-20" class="btn btn-default">-$20</button>
-      <button id="bet-subtract-5" class="btn btn-default">-$5</button>
-      <button id="bet-min" class="btn btn-primary">Min Bet</button>
-      <button id="bet-add-5" class="btn btn-default">+$5</button>
-      <button id="bet-add-20" class="btn btn-default">+$20</button>
-      <button id="bet-add-100" class="btn btn-default">+$100</button>
-      <button id="bet-max" class="btn btn-danger">Max Bet</button>
+      <div id="player-row"></div>
+      <div>
+        Your Hand: <span id="player-hand-value"></span>
+      </div>
+      <div id="status-div">
+        <span class="label label-default" id="status"></span>
+      </div>
+      
+      <div class="centered" id="actions">
+        <button id="deal" class="btn btn-primary">Deal</button>
+        <button id="hit" class="btn btn-danger">Hit Me!</button>
+        <button id="stand" class="btn btn-danger">Stand</button>
+        <!--<button id="double-down" class="btn btn-danger">Double-Down!</button>
+        <button id="split" class="btn btn-danger">Split!</button>-->
+      </div>
+      
+      <hr>
+      
+      <div class="centered">
+        <div id="stash-div">
+          Stash: $<span id="stash"></span>
+        </div>
+        <div>
+          Current Bet: $<span id="bet"></span>
+        </div>
+        
+        <div id="bet-row">
+          <span class="label label-default">Bet:</span>
+          <button id="bet-subtract-100" class="btn btn-default">-$100</button>
+          <button id="bet-subtract-20" class="btn btn-default">-$20</button>
+          <button id="bet-subtract-5" class="btn btn-default">-$5</button>
+          <button id="bet-min" class="btn btn-primary">Min Bet</button>
+          <button id="bet-add-5" class="btn btn-default">+$5</button>
+          <button id="bet-add-20" class="btn btn-default">+$20</button>
+          <button id="bet-add-100" class="btn btn-default">+$100</button>
+          <button id="bet-max" class="btn btn-danger">Max Bet</button>
+        </div>
+        <div class="cards-left">
+          Cards Left in Deck: <span id="cards-left"></span>
+        </div>
+        <div id="needs-shuffle"></div>
+      </div>
     </div>
-    
-    
-    <div>
-      <button id="deal" class="btn btn-danger">Deal</button>
-    </div>
-    
-    <div id="needs-shuffle"></div>
-    
     
   </body>
 </html>

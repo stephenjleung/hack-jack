@@ -1,26 +1,71 @@
 body {
-    margin-left: 20px;
-    background-color: green;
-    color: white;
-    font-size: 30px;
+  margin: 20px;
+  background-color: green;
+  color: white;
+  font-size: 30px;
+}
+
+.title {
+  text-align: center;
 }
 
 img {
-    height: 181px;
-    width: 125px;
-    margin: 5px;
-    box-shadow: 3px 3px 3px black;
+  height: 181px;
+  width: 125px;
+  margin: 5px;
+  box-shadow: 3px 3px 3px black;
 }
 
-button {
-    margin: 10px;
-}
 
 #dealer-row {
-    min-height: 191px;
-    margin-bottom: 40px;
+  min-height: 191px;
 }
 
 #player-row {
-    min-height: 191px;
+  min-height: 191px;
+}
+
+#status-div {
+  text-align: center;
+  min-height: 45px;
+  margin-bottom: 10px;
+}
+
+#stash-div {
+  margin-top: 30px;
+}
+
+.dealer-hand-indent {
+  padding-left: 100px;
+}
+
+.player-indent {
+  margin-top: 30px;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.cards-left {
+  margin-top: 20px;
+  font-size: 20px;
+}
+
+.centered {
+  text-align: center;
+}
+
+#hit {
+  display: none;
+}
+
+#stand {
+  display: none;
+}
+
+#actions {
+  min-height: 45px;
+}
+
+#bet-row {
+  min-height: 45px;
 }
